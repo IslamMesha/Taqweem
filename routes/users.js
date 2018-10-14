@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
-const userModel = require('../models/User')
+const userModel = require('../models/User');
 mongoose.connect('mongodb://localhost/Tqweem');
 const db = mongoose.connection;
 const bodyParser = require('body-parser')
@@ -27,15 +27,15 @@ router.post('/create', function (req, res, next) {
     }
   );
   newUser.save(function (err, newUser, numAffected) {
-    if (err) { }
+    // return newUser
   });
   res.send('respond with a resource');
 });
 
 
 /* GET users listing. */
-router.get('/users', function (req, res, next) {
-    res.send('respond with a resource');
+router.get('/list', function (req, res, next) {
+  res.json({ 'app': 'islam' });
 });
 
 
@@ -45,7 +45,7 @@ router.put('/update:id', function (req, res, next) {
 
 
 router.delete('/delete:id', function (req, res, next) {
-  let user = new user(
+  let userModel = new user(
     {
       name: req.body.name,
       price: req.body.price

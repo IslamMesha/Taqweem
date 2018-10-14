@@ -14,6 +14,10 @@ app.use(bodyParser.urlencoded({ extended: false }))
 const userModel = require('./models/User');
 app.use(userModel);
 
+// Routers
+const usersRouter = require('./routes/users');
+app.use('/users', usersRouter);
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -24,11 +28,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
-// Routers
-const usersRouter = require('./routes/users');
-app.use('/users', usersRouter);
-
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
