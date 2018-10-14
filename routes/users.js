@@ -1,12 +1,20 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
-const User = require('../models/User')
-const userModel = mongoose.model(User);
+const userModel = require('../models/User')
+mongoose.connect('mongodb://localhost/Tqweem');
+const db = mongoose.connection;
 const bodyParser = require('body-parser')
 
 
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function () {
+  // we're connected!
+  console.log("connected successfully.");
+});
+
 router.post('/create', function (req, res, next) {
+  console.log('Create a new user');
   let newUser = new userModel(
     {
       _id: mongoose.Types.ObjectId(),
@@ -27,7 +35,7 @@ router.post('/create', function (req, res, next) {
 
 /* GET users listing. */
 router.get('/users', function (req, res, next) {
-  res.send('respond with a resource');
+    res.send('respond with a resource');
 });
 
 

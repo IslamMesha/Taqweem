@@ -66,6 +66,5 @@ UserSchema.methods.toAuthJSON = function () {
     }
 }
 
-// IslamMesha
 var User = mongoose.model('User', UserSchema);
 module.exports = User;

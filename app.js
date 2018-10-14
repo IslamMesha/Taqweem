@@ -4,14 +4,14 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const app = express();
-var bodyParser = require('body-parser')
+const bodyParser = require('body-parser')
 
 // bodyParser configrations.
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }))
 
 // Models
-var userModel = require('./models/User');
+const userModel = require('./models/User');
 app.use(userModel);
 
 
@@ -26,9 +26,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Routers
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-app.use('/', indexRouter);
+const usersRouter = require('./routes/users');
 app.use('/users', usersRouter);
 
 
