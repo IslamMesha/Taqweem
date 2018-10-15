@@ -1,23 +1,15 @@
-const express = require('express');
-const router = express.Router();
-const mongoose = require('mongoose');
-const userModel = require('../models/User');
-mongoose.connect('mongodb://localhost/Tqweem');
-const db = mongoose.connection;
-const bodyParser = require('body-parser')
+var express = require('express');
+var router = express.Router();
+var userModel = require('../models/UserModel');
+var mongoose = require('mongoose');
 
 
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function () {
-  // we're connected!
-  console.log("connected successfully.");
-});
 
+// Create a new user.
 router.post('/create', function (req, res, next) {
-  console.log('Create a new user');
+  console.log('Create a new user.');
   let newUser = new userModel(
     {
-      _id: mongoose.Types.ObjectId(),
       username: req.body.username,
       email: req.body.email,
       password: req.body.password,
@@ -27,23 +19,29 @@ router.post('/create', function (req, res, next) {
     }
   );
   newUser.save(function (err, newUser, numAffected) {
-    // return newUser
-  });
-  res.send('respond with a resource');
-});
 
+    if (!err) {
+      console.log('User created successfully: ', newUser);
+      res.sendStatus(200);
+    } else {
+      console.log("Error in creating user: ", err);
+      res.sendStatus(500);
+    }
+    return newUser
+  });
+});
 
 /* GET users listing. */
-router.get('/list', function (req, res, next) {
-  res.json({ 'app': 'islam' });
+router.get('/', function (req, res, next) {
+  res.send('GET users listing.');
 });
 
-
+// Update user by id.
 router.put('/update:id', function (req, res, next) {
   res.send('respond with a resource');
 });
 
-
+// Delete user by id.
 router.delete('/delete:id', function (req, res, next) {
   let userModel = new user(
     {
