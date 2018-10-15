@@ -1,27 +1,27 @@
-const createError = require('http-errors');
-const express = require('express');
-const path = require('path');
-const cookieParser = require('cookie-parser');
-const logger = require('morgan');
-const app = express();
-const bodyParser = require('body-parser')
+var createError = require('http-errors');
+var express = require('express');
+var path = require('path');
+var cookieParser = require('cookie-parser');
+var logger = require('morgan');
+var mongoose = require('mongoose');
+var bodyParser = require('body-parser');
 
-// bodyParser configrations.
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }))
+var indexRouter = require('./routes/index');
+var usersRouter = require('./routes/users');
 
-// Models
-const userModel = require('./models/User');
-app.use(userModel);
+var app = express();
 
-// Routers
-const usersRouter = require('./routes/users');
-app.use('/users', usersRouter);
-
+const db = mongoose.connection;
+mongoose.connect('mongodb://localhost/Tqweem');
+db.on('error', console.error.bind(console, 'Database connection error:'));
+db.once('open', function () {
+  // we're connected!
+  console.log("Database connected successfully.");
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
+app.set('view engine', 'jade');
 
 app.use(logger('dev'));
 app.use(express.json());

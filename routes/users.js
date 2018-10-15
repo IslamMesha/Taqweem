@@ -1,9 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var userModel = require('../models/UserModel');
-var mongoose = require('mongoose');
-
-
 
 // Create a new user.
 router.post('/create', function (req, res, next) {
