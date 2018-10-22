@@ -29,6 +29,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
+app.use(bodyParser.text({ type: 'text/html' }))
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.raw({ type: 'application/vnd.custom-type' }))
+
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);

@@ -15,7 +15,8 @@ mongoose.set('useCreateIndex', true);
 
 var UserSchema = new Schema(
     {
-        _id: { type: UUID, default: uuid.v4 },
+        _id: mongoose.Types.ObjectId,
+        // _id: { type: UUID, default: uuid.v4 },
         username: { type: String, required: [true, "Can't be blank."], match: [/^[a-zA-Z0-9]+$/, 'Username is not valid.'], index: true, trim: true, unique: true },
         email: { type: String, lowercase: true, required: [true, "Can't be blank."], match: [/\S+@\S+\.\S+/, 'Email is not valid.'], index: true, trim: true, unique: true },
         password: { type: String, minlength: [6, "At least 6 characters."] },
@@ -34,10 +35,11 @@ var UserSchema = new Schema(
             }
         },
         // avatar: { type: Buffer, required: true },
-    }, { _id: false }, { timestamps: true }
+    }, { _id: true }, { timestamps: true }
 )
 
 UserSchema.plugin(uniqueValidator, { message: "User is already taken." });
+
 UserSchema.methods.setPassword = function (password) {
     this.salt = crypto.randomBytes(16).toString('hex');
     this.hash = crypto.pbkdf2Sync(password, this.salt, 10000, 512, 'sha512').toString('hex');
